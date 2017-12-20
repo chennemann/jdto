@@ -1,0 +1,23 @@
+configurations {
+    libs
+    compile {
+        extendsFrom libs
+    }
+}
+
+dependencies {
+    libs project(":annotation")
+    libs "com.squareup:javapoet:1.9.0"
+}
+
+jar {
+    manifest {
+        attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+        )
+    }
+    from {
+        configurations.libs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
